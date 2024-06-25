@@ -1,8 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getAllProducts = async () => {
-	return prisma.product.findMany();
+const getAllProducts = async (filter = {}, orderBy = {}) => {
+	return prisma.product.findMany({
+		where: filter,
+		orderBy: orderBy,
+	});
 };
 
 const getProductById = async (productId) => {

@@ -2,36 +2,22 @@ const productModel = require("../models/Product");
 
 const getAllProducts = async (req, res) => {
 	try {
-		const { category, sort } = req.query;
-		const products = await productModel.getAllProducts();
-		let finalProducts = products;
+		let { category, sort, order } = req.query;
+		let filter = {};
+		let orderBy = {};
 		if (category) {
-			finalProducts = finalProducts.filter(
-				(product) => product.category.toLowerCase() === category.toLowerCase()
-			);
+			filter.category = category;
 		}
-		if (sort) {
-			if (sort === "name") {
-				finalProducts = finalProducts.sort((a, b) => {
-					if (a.name.toLowerCase() > b.name.toLowerCase()) {
-						return 1;
-					} else if (a.name.toLowerCase() < b.name.toLowerCase()) {
-						return -1;
-					}
-					return 0;
-				});
-			} else if (sort === "price") {
-				finalProducts = finalProducts.sort((a, b) => {
-					if (a.price > b.price) {
-						return 1;
-					} else if (a.price < b.price) {
-						return -1;
-					}
-					return 0;
-				});
-			}
+		if (!order) {
+			order = "desc";
 		}
-		res.json(finalProducts);
+		if (sort === "price") {
+			orderBy = { price: order };
+		} else if (sort === "name") {
+			orderBy = { name: order };
+		}
+		const products = await productModel.getAllProducts(filter, orderBy);
+		res.json(products);
 	} catch (error) {
 		res.json({ error: error.message });
 	}

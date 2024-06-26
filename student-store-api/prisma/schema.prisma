@@ -20,7 +20,7 @@ model Product {
   price       Float
   image_url   String
   category    String
-  OrderItem   OrderItem[]
+  order_items OrderItem[]
 }
 
 model Order {

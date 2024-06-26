@@ -18,10 +18,40 @@ const getOrderById = async (req, res) => {
 	}
 };
 
+const getOrderTotal = async (req, res) => {
+	try {
+		const orderTotal = await orderModel.getOrderTotal(req.params.orderId);
+		res.json(orderTotal);
+	} catch (error) {
+		res.json({ error: error.message });
+	}
+};
+
 const createOrder = async (req, res) => {
 	try {
 		const order = await orderModel.createOrder(req.body);
 		res.json(order);
+	} catch (error) {
+		res.json({ error: error.message });
+	}
+};
+
+const addItemToOrder = async (req, res) => {
+	try {
+		const orderItem = orderModel.addItemsToOrder(req.params.orderId, req.body);
+		res.json(orderItem);
+	} catch (error) {
+		res.json({ error: error.message });
+	}
+};
+
+const deleteItemFromOrder = async (req, res) => {
+	try {
+		const orderItem = orderModel.deleteItemFromOrder(
+			req.params.orderId,
+			req.params.orderItemId
+		);
+		res.json(orderItem);
 	} catch (error) {
 		res.json({ error: error.message });
 	}
@@ -48,7 +78,10 @@ const deleteOrder = async (req, res) => {
 module.exports = {
 	getAllOrders,
 	getOrderById,
+	getOrderTotal,
 	createOrder,
+	addItemToOrder,
+	deleteItemFromOrder,
 	updateOrder,
 	deleteOrder,
 };

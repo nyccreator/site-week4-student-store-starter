@@ -18,17 +18,7 @@ const getOrderItemById = async (req, res) => {
 	}
 };
 
-const createOrderItem = async (req, res) => {
-	try {
-		const orderItem = await orderItemModel.createOrderItem(req.body);
-		res.json(orderItem);
-	} catch (error) {
-		res.json({ error: error.message });
-	}
-};
-
 module.exports = {
 	getAllOrderItems,
 	getOrderItemById,
-	createOrderItem,
 };

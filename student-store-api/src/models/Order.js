@@ -29,7 +29,7 @@ const createOrder = async (orderData) => {
 	return prisma.order.create({
 		data: {
 			customer_id: parseInt(orderData.customer_id),
-			total_price: parseFloat(orderData.total_price),
+			email: orderData.email,
 			status: orderData.status,
 		},
 	});
@@ -42,11 +42,19 @@ const addItemToOrder = async (orderId, orderItemData) => {
 		},
 	});
 
+	if (!product) {
+		throw new Error("Product not found");
+	}
+
 	const order = await prisma.order.findUnique({
 		where: {
 			order_id: parseInt(orderId),
 		},
 	});
+
+	if (!order) {
+		throw new Error("Order not found");
+	}
 
 	await prisma.order.update({
 		where: {
@@ -55,7 +63,7 @@ const addItemToOrder = async (orderId, orderItemData) => {
 		data: {
 			total_price:
 				parseFloat(order.total_price) +
-				parseFloat(product.price) * parseInt(orderItemData.quantity),
+				parseFloat(product.price) * parseInt(orderItemData.quantity) * 1.0875,
 		},
 	});
 
@@ -76,18 +84,31 @@ const deleteItemFromOrder = async (orderId, orderItemId) => {
 		},
 	});
 
+	if (!order) {
+		throw new Error("Order not found");
+	}
+
 	const orderItem = await prisma.orderItem.findUnique({
 		where: {
 			order_item_id: parseInt(orderItemId),
 		},
 	});
 
+	if (!orderItem) {
+		throw new Error("Order item not found");
+	}
+
+	if (parseInt(orderItem.order_id) !== parseInt(orderId)) {
+		throw new Error("Order item not found in this order");
+	}
+
 	await prisma.order.update({
 		where: {
 			order_id: parseInt(orderId),
 		},
 		data: {
-			total_price: parseFloat(order.total_price) - parseFloat(orderItem.price),
+			total_price:
+				parseFloat(order.total_price) - parseFloat(orderItem.price) * 1.0875,
 		},
 	});
 
@@ -100,17 +121,15 @@ const deleteItemFromOrder = async (orderId, orderItemId) => {
 
 const updateOrder = async (orderId, orderData) => {
 	return prisma.order.update({
-		where: { id: parseInt(orderId) },
+		where: { order_id: parseInt(orderId) },
 		data: {
-			customer_id: parseInt(orderData.customer_id),
-			total_price: parseFloat(orderData.total_price),
 			status: orderData.status,
 		},
 	});
 };
 
 const deleteOrder = async (orderId) => {
-	return prisma.order.delete({ where: { id: parseInt(orderId) } });
+	return prisma.order.delete({ where: { order_id: parseInt(orderId) } });
 };
 
 module.exports = {

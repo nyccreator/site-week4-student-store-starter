@@ -38,7 +38,7 @@ const createOrder = async (req, res) => {
 
 const addItemToOrder = async (req, res) => {
 	try {
-		const orderItem = orderModel.addItemsToOrder(req.params.orderId, req.body);
+		const orderItem = orderModel.addItemToOrder(req.params.orderId, req.body);
 		res.json(orderItem);
 	} catch (error) {
 		res.json({ error: error.message });

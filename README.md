@@ -12,7 +12,7 @@ Submitted by: **Andrey Fernandez**
   - [x] This model should include attributes such as `id`, `name`, `description`, `price`, `image_url`, and `category`.
   - [x] Implement methods for CRUD operations on products.
   - [x] Ensure transaction handling for the deletion of products to also delete related `order_items`
-- [x]**Orders Model**: Develop a model to manage orders.
+- [x] **Orders Model**: Develop a model to manage orders.
   - [x] This model should include attributes such as `order_id`, `customer_id`, `total_price`, `status`, and `created_at`.
   - [x] Implement methods for creating, fetching, updating, and deleting orders.
   - [x] Ensure transaction handling for the deletion of orders to also delete related `order_items`

@@ -136,6 +136,7 @@ export default function ShoppingCart({
 						error={error}
 					/>
 					<CheckoutSuccess
+						products={products}
 						userInfo={userInfo}
 						order={order}
 						setOrder={setOrder}

@@ -174,6 +174,23 @@ function App() {
 						/>
 					</Routes>
 				</main>
+				{/* <SidebarRight
+					cart={cart}
+					error={error}
+					userInfo={userInfo}
+					setUserInfo={setUserInfo}
+					isOpen={sidebarOpen}
+					products={products}
+					toggleSidebar={toggleSidebar}
+					isCheckingOut={isCheckingOut}
+					addToCart={handleOnAddToCart}
+					removeFromCart={handleOnRemoveFromCart}
+					getQuantityOfItemInCart={handleGetItemQuantity}
+					getTotalItemsInCart={handleGetTotalCartItems}
+					handleOnCheckout={handleOnCheckout}
+					order={order}
+					setOrder={setOrder}
+				/> */}
 			</BrowserRouter>
 		</div>
 	);
